@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QMAX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #000000;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .menu-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .menu-line {
+      width: 30px;
+      height: 3px;
+      background-color: white;
+    }
+
+    .side-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 100vh;
+      background-color: #111;
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+      z-index: 1000;
+      box-shadow: 2px 0 20px rgba(0,0,0,0.5);
+      padding: 20px;
+    }
+
+    .side-panel.active {
+      transform: translateX(0);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .panel-content {
+      margin-top: 60px;
+    }
+
+    .link-box {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      background-color: #1a1a1a;
+      border: 2px solid #5d1787;
+      border-radius: 12px;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: white;
+      font-size: 22px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .link-item:hover {
+      background-color: #5d1787;
+      transform: scale(1.05);
+    }
+
+    .link-icon {
+      width: 60px;
+      height: 40px;
+      margin-right: 15px;
+    }
+
+    .insta-icon {
+      width: 50px;
+      height: 50px;
+    }
+
+    .header {
+      text-align: center;
+      padding-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-container {
+      background-color: #5d1787;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
+    }
+
+    .logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: translate(-5px, 4px);
+      image-rendering: pixelated;
+    }
+
+    .title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 50px;
+      margin-top: 20px;
+      letter-spacing: 4px;
+      color: white;
+    }
+
+    .content {
+      text-align: center;
+      margin-top: 10vh;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1.2s ease;
+      padding: 50px 20px;
+    }
+
+    .content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .paragraph {
+      font-size: 20px;
+      max-width: 800px;
+      margin: 0 auto 120px;
+      line-height: 1.6;
+    }
+
+    .qmax-name {
+      font-size: 26px;
+      font-family: 'Orbitron', sans-serif;
+      margin: 15px 0;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menü butonu -->
+  <div class="menu-btn" onclick="openPanel()">
+    <div class="menu-line"></div>
+    <div class="menu-line"></div>
+  </div>
+
+  <!-- Açılır panel -->
+  <div class="side-panel" id="panel">
+    <div class="close-btn" onclick="closePanel()">✕</div>
+    <div class="panel-content">
+      <div class="link-box">
+        <a href="iletisim.html" class="link-item">
+          <img src="iletisim.png" alt="İletişim" class="link-icon" style="width: 40px; height: 40px; margin-right: 12px;">
+          <span>İletişim</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-container">
+      <img src="gumeks.png" alt="QMAX Logo" class="logo">
+    </div>
+    <div class="title">QMAX</div>
+  </div>
+
+  <!-- İçerik -->
+  <div class="content" id="whoami">
+    <div class="section-title">Ben kimim?</div>
+    <div class="paragraph">
+      5 yaşımda hatırladığıma göre galerimdeki videoların YouTube'da yüklendiğini zannediyordum. Fakat gerçeği öğrenmem uzun sürmedi. Ablam Nil sayesinde öğrenmiştim video atmayı. Legolara takıntılıydım, hala yapıyorum. 8 yaşımda bir bilgisayar edindim ve onunla gerçekten emek verilmiş güzel videolar çektim.
+      <div class="qmax-name">Adı Qmax'ti.</div>
+      ve emeğimin karşılığını aldım. 100, 200, 300, 400, 500.. 500 abone olmuştum! Artık bu işi kavramıştım. Fakat uzun bir süre ara vermiştim. 10 yaşımdayken 1000 abone oldum. Şu an 1430 aboneyim..
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="section-title">Projelerim</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>1. İlk Sitem:</strong> Kodlamayı ilk öğrendiğimde yaptığım o site, gerçekten güzel bir site oldu.</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>2. Gümeks Timer:</strong> Ablam Nil için yaptığım zeka küpü Timer'i. Hala ufak hataları var, ve geliştirmeye devam ediyorum.</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>3. Lamp-Project:</strong> Bir lamba var, nasıl anlatsam bilmiyorum. Basarsanız kapanıyor, bu kadar.</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>4. Mafia Heist:</strong> Bir mafya yakalama oyunu. Bitirmeden bırakmıştım.</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>5. ZıpZıp Okan oyunu:</strong> Karakterimiz Okan Buruk ve bizde engellerin üstünden zıplayıp sona ulaşıyoruz.</div>
+  </div>
+
+  <!-- Bağlantılar -->
+  <div class="content">
+    <div class="section-title">Bağlantılar</div>
+
+    <div class="link-box">
+      <a href="https://youtube.com/@qmax123?si=WfLJt1FAGjMY8aEZ" target="_blank" class="link-item">
+        <img src="youtube.png" alt="YouTube" class="link-icon">
+        <span>YouTube Kanalım</span>
+      </a>
+    </div>
+
+    <div class="link-box">
+      <a href="https://www.instagram.com/gume.ks/" target="_blank" class="link-item">
+        <img src="insta.png" alt="Instagram" class="link-icon insta-icon">
+        <span>Instagram Profilim</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    window.addEventListener('scroll', () => {
+      const content = document.querySelectorAll('.content');
+      content.forEach(el => {
+        const pos = el.getBoundingClientRect().top;
+        const screen = window.innerHeight * 0.9;
+        if (pos < screen) {
+          el.classList.add('visible');
+        }
+      });
+    });
+
+    function openPanel() {
+      document.getElementById('panel').classList.add('active');
+    }
+
+    function closePanel() {
+      document.getElementById('panel').classList.remove('active');
+    }
+  </script>
+</body>
+</html>

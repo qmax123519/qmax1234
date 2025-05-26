@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İletişim | QMAX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #000;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 40px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1a1a1a;
+      color: white;
+      font-size: 16px;
+      resize: none;
+    }
+
+    button {
+      padding: 12px;
+      font-size: 18px;
+      background-color: #5d1787;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #7b2bc0;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .back-link a {
+      color: #5d1787;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section-title">Bana Ulaş</div>
+
+  <form action="https://formspree.io/f/xkgrlzbk" method="POST">
+    <input type="text" name="name" placeholder="Adınız" required>
+    <textarea name="message" placeholder="Mesajınız" rows="6" required></textarea>
+    <button type="submit">Gönder</button>
+  </form>
+
+  <div class="back-link">
+    <a href="index.html">← Anasayfaya Dön</a>
+
+  </div>
+
+</body>
+</html>

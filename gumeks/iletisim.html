@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İletişim | QMAX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    button {
+  background-color: #5d1787;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 18px;
+  box-shadow: 0 0 10px #5d1787;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  box-shadow: 0 0 20px #7b2bc0, 0 0 40px #7b2bc0;
+  transform: scale(1.05);
+}
+
+    body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(123,43,192,0.2), transparent 50%);
+  z-index: 0;
+}
+
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #000;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body.light-mode {
+      background-color: white;
+      color: black;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 40px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1a1a1a;
+      color: white;
+      font-size: 16px;
+      resize: none;
+    }
+
+    body.light-mode input,
+    body.light-mode textarea {
+      background-color: #eee;
+      color: black;
+    }
+
+    button {
+      padding: 12px;
+      font-size: 18px;
+      background-color: #5d1787;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #7b2bc0;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .back-link a {
+      color: #5d1787;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section-title">Bana Ulaş</div>
+
+  <form action="https://formspree.io/f/xkgrlzbk" method="POST">
+    <input type="text" name="name" placeholder="Adınız" required>
+    <textarea name="message" placeholder="Mesajınız" rows="6" required></textarea>
+    <button type="submit">Gönder</button>
+  </form>
+
+  <div class="back-link">
+    <a href="index.html">← Anasayfaya Dön</a>
+  </div>
+
+  <script>
+    function applyTheme(theme) {
+      document.body.classList.toggle("light-mode", theme === "light");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const theme = localStorage.getItem("theme") || "dark";
+      applyTheme(theme);
+    });
+    document.addEventListener("mousemove", e => {
+  document.body.style.setProperty('--x', `${e.clientX}px`);
+  document.body.style.setProperty('--y', `${e.clientY}px`);
+});
+
+  </script>
+
+</body>
+</html>

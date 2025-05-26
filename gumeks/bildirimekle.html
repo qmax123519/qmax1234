@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bildirim Ekle | QMAX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #000;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body.light-mode {
+      background-color: white;
+      color: black;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .form-box {
+      max-width: 600px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    input {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1a1a1a;
+      color: white;
+      font-size: 16px;
+    }
+
+    body.light-mode input {
+      background-color: #eee;
+      color: black;
+    }
+
+    button {
+      padding: 12px;
+      font-size: 18px;
+      background-color: #5d1787;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #7b2bc0;
+    }
+
+    .notification-list {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      border: 2px solid #5d1787;
+    }
+
+    .notification-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #444;
+    }
+
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+
+    .notification-item button {
+      background-color: crimson;
+      font-size: 14px;
+      padding: 6px 10px;
+    }
+
+    body.light-mode .notification-list {
+      background-color: #f1f1f1;
+      color: black;
+      border-color: #7b2bc0;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .back-link a {
+      color: #5d1787;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section-title">Bildirim Ekle</div>
+
+  <div class="form-box">
+    <input type="text" id="newNotif" placeholder="Yeni bildirim yaz..." />
+    <button onclick="addNotification()">➕ Bildirimi Ekle</button>
+  </div>
+
+  <div class="notification-list" id="notificationList">
+    <!-- Bildirimler buraya gelecek -->
+  </div>
+
+  <div class="back-link">
+    <a href="index.html">← Anasayfaya Dön</a>
+  </div>
+
+  <script>
+    // Şifre koruması
+    const password = prompt("Bu sayfa yalnızca yöneticilere özeldir.\nLütfen şifreyi girin:");
+    if (password !== "qmax123") {
+      alert("❌ Hatalı şifre. Anasayfaya yönlendiriliyorsunuz.");
+      window.location.href = "index.html";
+    }
+
+    // Tema işlemleri
+    function applyTheme(theme) {
+      document.body.classList.toggle("light-mode", theme === "light");
+    }
+
+    function loadTheme() {
+      const theme = localStorage.getItem("theme") || "dark";
+      applyTheme(theme);
+    }
+
+    function getNotifications() {
+      return JSON.parse(localStorage.getItem("qmax_bildirimler") || "[]");
+    }
+
+    function saveNotifications(list) {
+      localStorage.setItem("qmax_bildirimler", JSON.stringify(list));
+    }
+
+    function renderNotifications() {
+      const container = document.getElementById("notificationList");
+      const list = getNotifications();
+      container.innerHTML = "";
+
+      if (list.length === 0) {
+        container.innerHTML = "<p>📭 Henüz hiç bildirim yok.</p>";
+        return;
+      }
+
+      list.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "notification-item";
+        div.innerHTML = `
+          <span>${item}</span>
+          <button onclick="deleteNotification(${index})">Sil</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function addNotification() {
+      const input = document.getElementById("newNotif");
+      const value = input.value.trim();
+      if (!value) return;
+
+      const list = getNotifications();
+      list.push(value);
+      saveNotifications(list);
+      input.value = "";
+      renderNotifications();
+    }
+
+    function deleteNotification(index) {
+      const list = getNotifications();
+      list.splice(index, 1);
+      saveNotifications(list);
+      renderNotifications();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadTheme();
+      renderNotifications();
+    });
+    function addNotification() {
+  const input = document.getElementById("newNotif");
+  const value = input.value.trim();
+  if (!value) return;
+
+  const list = getNotifications();
+  list.push(value);
+  saveNotifications(list);
+  input.value = "";
+  renderNotifications();
+  showToast();
+
+  // 🔄 Bildirim panelini güncellemesi için event tetikle
+  setTimeout(() => {
+    localStorage.setItem("qmax_refresh_bildirim", Date.now()); // benzersiz olsun
+  }, 5000);
+}
+setTimeout(() => {
+  localStorage.setItem("qmax_refresh_bildirim", Date.now()); // 🔁 Benzersiz tetikleyici
+}, 5000);
+function addNotification() {
+  const input = document.getElementById("newNotif");
+  const value = input.value.trim();
+  if (!value) return;
+
+  const list = JSON.parse(localStorage.getItem("qmax_bildirimler") || "[]");
+  list.push(value);
+  localStorage.setItem("qmax_bildirimler", JSON.stringify(list));
+
+  // 🔢 Kaç tane yeni bildirim geldiğini anlamak için okunan sayıyı kontrol et
+  const okunanAdet = parseInt(localStorage.getItem("qmax_okunan_adet") || "0");
+  const yeniSayisi = list.length - okunanAdet;
+  localStorage.setItem("qmax_yeni_sayisi", yeniSayisi);
+
+  input.value = "";
+  renderNotifications();
+  showToast();
+
+  setTimeout(() => {
+    localStorage.setItem("qmax_refresh_bildirim", Date.now());
+  }, 5000);
+}
+
+
+
+  </script>
+
+</body>
+</html>

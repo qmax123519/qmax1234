@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ayarlar | QMAX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(123,43,192,0.2), transparent 50%);
+  z-index: 0;
+}
+
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background-color: #000;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light-mode {
+      background-color: white;
+      color: black;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 40px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .setting-box {
+      max-width: 600px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .setting-item {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 2px solid #5d1787;
+    }
+
+    .setting-item span {
+      font-size: 20px;
+    }
+
+    .setting-item button {
+      background-color: #5d1787;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .setting-item button:hover {
+      background-color: #7b2bc0;
+    }
+
+    body.light-mode .setting-item {
+      background-color: #f0f0f0;
+      border-color: #7b2bc0;
+      color: black;
+    }
+
+    body.light-mode .setting-item button {
+      background-color: #7b2bc0;
+      color: white;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .back-link a {
+      color: #5d1787;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section-title">Ayarlar</div>
+
+  <div class="setting-box">
+    <div class="setting-item">
+      <span>Tema</span>
+      <button onclick="toggleTheme()">Koyu / Açık</button>
+    </div>
+
+    <div class="setting-item">
+      <span>Bildirim Sesi</span>
+      <button onclick="toggleSound()">Açık / Kapalı</button>
+    </div>
+
+    <div class="setting-item">
+      <span>Kullanıcı Modu</span>
+      <button onclick="toggleUser()">Ziyaretçi / Qmax</button>
+    </div>
+  </div>
+
+  <div class="back-link">
+    <a href="index.html">← Anasayfaya Dön</a>
+  </div>
+
+  <script>
+    // Tema uygulama
+    function applyTheme(theme) {
+      document.body.classList.toggle('light-mode', theme === 'light');
+    }
+
+    // Mevcut temayı yükle
+    window.addEventListener('DOMContentLoaded', () => {
+      const current = localStorage.getItem('theme') || 'dark';
+      applyTheme(current);
+    });
+
+    function toggleTheme() {
+      const current = localStorage.getItem('theme') || 'dark';
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      applyTheme(newTheme);
+    }
+
+    function toggleSound() {
+      alert("🔊 Bildirim sesi değiştirildi (örnek).");
+    }
+
+    function toggleUser() {
+      alert("👤 Kullanıcı modu değiştirildi (örnek).");
+    }
+    document.addEventListener("mousemove", e => {
+  document.body.style.setProperty('--x', `${e.clientX}px`);
+  document.body.style.setProperty('--y', `${e.clientY}px`);
+});
+
+  </script>
+
+</body>
+</html>

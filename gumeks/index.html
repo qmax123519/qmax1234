@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+
+</div>
+<div id="devOverlay">YAZILIMCI MODU AKTİF! 👨‍💻</div>
+<div id="girisBalonu">👋 Hoş geldin!</div>
+  <div class="coded-by">QMAX tarafından kodlandı ✍️</div>
+  <div class="logo-ping"></div>
+  <canvas id="starfield" style="position:fixed; top:0; left:0; z-index:-1;"></canvas>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QMAX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <canvas id="starfield" style="position:fixed; top:0; left:0; z-index:-1;"></canvas>
+
+  <style>
+    #devOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: black;
+  color: lime;
+  font-size: 36px;
+  font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10000;
+  animation: none;
+}
+
+@keyframes devFlash {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+    
+    #girisBalonu {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #5d1787;
+  color: white;
+  padding: 12px 10px;
+  border-radius: 69px;
+  box-shadow: 0 0 20px rgba(93, 23, 135, 0.6);
+  font-size: 18px;
+  opacity: 0;
+  animation: fadePop 4s ease forwards;
+  z-index: 9999;
+}
+
+@keyframes fadePop {
+  0% { opacity: 0; transform: translate(-50%, -20px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+
+  .coded-by {
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  margin-top: 60px;
+  opacity: 0;
+  animation: slideUp 1.5s ease forwards;
+  animation-delay: 5s; /* 8 saniye sonra başlasın laaann */
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+    
+    
+    .blur-bg {
+  filter: blur(5px);
+  transition: filter 0.4s ease;
+}
+
+    body {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+    button {
+  background-color: #5d1787;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 18px;
+  box-shadow: 0 0 10px #5d1787;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  box-shadow: 0 0 20px #7b2bc0, 0 0 40px #7b2bc0;
+  transform: scale(1.05);
+}
+
+
+  .logo-container::before {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(rgba(123,43,192,0.3), transparent 70%);
+  animation: pulse 4s infinite ease-in-out;
+}
+
+  .header {
+  opacity: 0;
+  transform: scale(0.8);
+  animation: popIn 0.6s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+    @keyframes notif-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.notif-badge.pop {
+  animation: notif-pop 0.4s ease;
+}
+
+    @keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+#notifCount {
+  animation: shake 0.4s;
+}
+
+    body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(123,43,192,0.2), transparent 50%);
+  z-index: 0;
+}
+
+    @keyframes floatUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.logo-container {
+  animation: floatUpDown 3.6s ease-in-out infinite;
+}
+
+    body {
+      margin: 0;
+      background-color: #000;
+      color: white;
+      font-family: 'Open Sans', sans-serif;
+      overflow-x: hidden;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body.light-mode {
+      background-color: white;
+      color: black;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .menu-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .menu-line {
+      width: 30px;
+      height: 3px;
+      background-color: currentColor;
+    }
+
+    .notification-btn {
+      position: fixed;
+      top: 20px;
+      right: 70px;
+      z-index: 1002;
+      cursor: pointer;
+    }
+
+    .notification-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .notification-icon {
+      width: 40px;
+      height: 40px;
+      filter: brightness(0) invert(1);
+      transition: filter 0.3s;
+    }
+
+    body.light-mode .notification-icon {
+      filter: brightness(0);
+    }
+
+    .notif-badge {
+      position: absolute;
+      bottom: -4px;
+      left: -2px;
+      background-color: red;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 50%;
+      padding: 1px 2px;
+      min-width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 17px;
+      display: none;
+      z-index: 1003;
+    }
+
+    .side-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 100vh;
+      background-color: #111;
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+      z-index: 1000;
+      box-shadow: 2px 0 20px rgba(0,0,0,0.5);
+      padding: 20px;
+    }
+
+    body.light-mode .side-panel {
+      background-color: #eee;
+      color: black;
+    }
+
+    .side-panel.active {
+      transform: translateX(0);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .panel-content {
+      margin-top: 60px;
+    }
+
+    .link-box {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      background-color: #1a1a1a;
+      border: 2px solid #5d1787;
+      border-radius: 12px;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: white;
+      font-size: 22px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .link-item:hover {
+      background-color: #5d1787;
+      transform: scale(1.05);
+    }
+
+    body.light-mode .link-item {
+      background-color: #ddd;
+      color: black;
+      border-color: #7b2bc0;
+    }
+
+    .link-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 12px;
+    }
+
+    .insta-icon {
+      width: 50px;
+      height: 50px;
+    }
+
+    .header {
+      text-align: center;
+      padding-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-container {
+      background-color: #5d1787;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
+    }
+
+    .logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: translate(-5px, 4px);
+      image-rendering: pixelated;
+    }
+
+    .title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 50px;
+      margin-top: 20px;
+      letter-spacing: 4px;
+    }
+
+    .content {
+      text-align: center;
+      margin-top: 10vh;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1.2s ease;
+      padding: 50px 20px;
+    }
+
+    .content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .paragraph {
+      font-size: 20px;
+      max-width: 800px;
+      margin: 0 auto 120px;
+      line-height: 1.6;
+    }
+
+    .qmax-name {
+      font-size: 26px;
+      font-family: 'Orbitron', sans-serif;
+      margin: 15px 0;
+      display: inline-block;
+    }
+
+    .notification-panel {
+      position: fixed;
+      top: 0;
+      right: -320px;
+      width: 300px;
+      height: 100vh;
+      background-color: #111;
+      color: white;
+      box-shadow: -2px 0 20px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      transition: right 0.4s ease;
+      z-index: 1003;
+    }
+
+    .notification-panel.active {
+      right: 0;
+    }
+
+    body.light-mode .notification-panel {
+      background-color: #f1f1f1;
+      color: black;
+    }
+
+    .notif-close-btn {
+      font-size: 24px;
+      cursor: pointer;
+      text-align: right;
+    }
+
+    .notif-title {
+      font-size: 28px;
+      font-family: 'Orbitron', sans-serif;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .notif-content {
+      font-size: 18px;
+      padding: 10px;
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      border: 2px solid #5d1787;
+      white-space: pre-wrap;
+    }
+    
+    body.light-mode .notif-content {
+      background-color: #eee;
+      color: black;
+      border-color: #7b2bc0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menü -->
+  <div class="menu-btn" onclick="openPanel()">
+    <div class="menu-line"></div>
+    <div class="menu-line"></div>
+  </div>
+
+  <!-- Bildirim Butonu -->
+  <div class="notification-btn" onclick="toggleNotification()">
+    
+    <script>
+  function updateNotificationPanel() {
+    const bildirimler = JSON.parse(localStorage.getItem('qmax_bildirimler') || '[]');
+    const mesaj = bildirimler.length > 0
+      ? bildirimler.map(m => `• ${m}`).join('\n\n')
+      : "📭 Hiç bildirim yok.";
+    document.getElementById('notifContent').innerText = mesaj;
+    function toggleNotification() {
+  const panel = document.getElementById('notificationPanel');
+  panel.classList.toggle('active');
+
+  updateNotificationPanel(); // Bildirim metnini güncelle
+  updateNotifCount(); // Sayacı güncelle
+
+  // 🔴 Sayı sıfırlansın (ama bildirimleri silmeden)
+  const badge = document.getElementById("notifCount");
+  badge.style.display = "none";
+}
+
+  }
+  
+
+  function toggleNotification() {
+    const panel = document.getElementById('notificationPanel');
+    panel.classList.toggle('active');
+    updateNotificationPanel();
+    updateNotifCount();
+    badge.classList.remove("pop"); // varsa önce sil
+void badge.offsetWidth; // yeniden başlatmak için
+badge.classList.add("pop");
+function toggleNotification() {
+  const panel = document.getElementById('notificationPanel');
+  panel.classList.toggle('active');
+
+  updateNotificationPanel(); // Bildirim metnini güncelle
+  updateNotifCount(); // Sayacı güncelle
+
+  // 🔴 Sayı sıfırlansın (ama bildirimleri silmeden)
+  const badge = document.getElementById("notifCount");
+  badge.style.display = "none";
+}
+
+
+  }
+
+  function updateNotifCount() {
+    const badge = document.getElementById("notifCount");
+    const bildirimler = JSON.parse(localStorage.getItem("qmax_bildirimler") || "[]");
+    const count = bildirimler.length;
+
+    if (count === 0) {
+      badge.style.display = "none";
+    } else {
+      badge.style.display = "inline-block";
+      badge.innerText = count > 9 ? "9+" : count;
+    }
+  }
+  document.addEventListener("keydown", (e) => {
+  if (e.key.toLowerCase() === "k") {
+    const overlay = document.getElementById("devOverlay");
+    overlay.style.animation = "devFlash 3s ease";
+    setTimeout(() => {
+      overlay.style.animation = "none";
+    }, 3000);
+  }
+});
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const theme = localStorage.getItem("theme") || "dark";
+    applyTheme(theme);
+    updateNotifCount();
+    window.dispatchEvent(new Event("scroll"));
+    let lastNotifCount = -1;
+
+setInterval(() => {
+  const bildirimler = JSON.parse(localStorage.getItem("qmax_bildirimler") || "[]");
+  const count = bildirimler.length;
+
+  if (count !== lastNotifCount) {
+    updateNotifCount();
+    lastNotifCount = count;
+  }
+}, 3000); // her 3 saniyede bir kontrol
+
+  });
+  let lastNotifCount = -1;
+
+setInterval(() => {
+  const bildirimler = JSON.parse(localStorage.getItem("qmax_bildirimler") || "[]");
+  const count = bildirimler.length;
+
+  if (count !== lastNotifCount) {
+    updateNotifCount();
+    lastNotifCount = count;
+  }
+}, 3000); // her 3 saniyede bir kontrol
+
+</script>
+
+    <div class="notification-wrapper">
+      <img src="bildirim.png" alt="Bildirim" class="notification-icon">
+      <span id="notifCount" class="notif-badge">0</span>
+    </div>
+  </div>
+
+  <!-- Panel -->
+  <div class="side-panel" id="panel">
+    <div class="close-btn" onclick="closePanel()">✕</div>
+    <div class="panel-content">
+      <div class="link-box">
+        <a href="iletisim.html" class="link-item">
+          <img src="iletisim.png" alt="İletişim" class="link-icon">
+          <span>İletişim</span>
+        </a>
+      </div>
+      <div class="link-box">
+        <a href="ayarlar.html" class="link-item">
+          <img src="ayarlar.png" alt="Ayarlar" class="link-icon">
+          <span>Ayarlar</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bildirim Paneli -->
+  <div class="notification-panel" id="notificationPanel">
+    <div class="notif-close-btn" onclick="toggleNotification()">✕</div>
+    <div class="notif-title">🔔 Bildirimler</div>
+    <div class="notif-content" id="notifContent">Yükleniyor...</div>
+    
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-container">
+      <img src="gumeks.png" alt="QMAX Logo" class="logo">
+    </div>
+    <div class="title">QMAX</div>
+  </div>
+
+  <!-- İÇERİKLER -->
+  <div class="content">
+    <div class="section-title">Ben kimim?</div>
+    <div class="paragraph">
+      5 yaşımda hatırladığıma göre galerimdeki videoların YouTube'da yüklendiğini zannediyordum. Gerçeği öğrenmiştim. Ablam sayesinde YouTube'ye video yüklemeyi öğrendim. Ve şu anki hesabımın eski adı
+      <div class="qmax-name">King_Sonic'ti</div>
+      Hesap 100, 200, 300, 400, 500 abone olmuştu. Şu anki hesabımın adı 
+      <div class="qmax-name">Qmax</div>
+      1430 aboneyim..
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="section-title">Projelerim</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>1. İlk Sitem:</strong> Kodlamayı ilk öğrendiğimde yaptığım o site, gerçekten güzel bir site oldu.</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>2. Gümeks Timer:</strong> Zeka küpü zamanlayıcısı</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>3. Lamp-Project:</strong> Bir lamba var. Basınca kapanıyor. Bu kadar ( ciddiyim ) :D</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>4. Mafia Heist:</strong> Bitmemiş bir mafya yakalama oyunu. Oyun Animasyondan ibaret</div>
+  </div>
+
+  <div class="content">
+    <div class="paragraph"><strong>5. ZıpZıp Okan:</strong> Karakterimiz Okan Buruk. Zıplayarak sona ulaşmaya çalışıyoruz. dksdjhaksldsa</div>
+  </div>
+
+  <div class="content">
+    <div class="section-title">Bağlantılar</div>
+
+    <div class="link-box">
+      <a href="https://youtube.com/@qmax123?si=WfLJt1FAGjMY8aEZ" target="_blank" class="link-item">
+        <img src="youtube.png" alt="YouTube" class="link-icon">
+        <span>YouTube Kanalım</span>
+      </a>
+    </div>
+
+    <div class="link-box">
+      <a href="https://www.instagram.com/gume.ks/" target="_blank" class="link-item">
+        <img src="insta.png" alt="Instagram" class="link-icon insta-icon">
+        <span>Instagram Profilim</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- JS -->
+
+  <script>
+    function openPanel() {
+      document.getElementById('panel').classList.add('active');
+    }
+
+    function closePanel() {
+      document.getElementById('panel').classList.remove('active');
+    }
+
+    function toggleNotification() {
+      const panel = document.getElementById('notificationPanel');
+      panel.classList.toggle('active');
+
+      const bildirimler = JSON.parse(localStorage.getItem('qmax_bildirimler') || '[]');
+      const mesaj = bildirimler.length > 0
+        ? bildirimler.map(m => `• ${m}`).join('\n\n')
+        : "📭 Hiç bildirim yok.";
+      document.getElementById('notifContent').innerText = mesaj;
+
+      updateNotifCount();
+      function toggleNotification() {
+  const panel = document.getElementById('notificationPanel');
+  panel.classList.toggle('active');
+
+  updateNotificationPanel(); // Bildirim metnini güncelle
+  updateNotifCount(); // Sayacı güncelle
+
+  // 🔴 Sayı sıfırlansın (ama bildirimleri silmeden)
+  const badge = document.getElementById("notifCount");
+  badge.style.display = "none";
+}
+
+    }
+
+    function updateNotifCount() {
+  const badge = document.getElementById("notifCount");
+  const bildirimler = JSON.parse(localStorage.getItem("qmax_bildirimler") || "[]");
+  const count = bildirimler.length;
+
+  // Eğer bildirim yoksa veya panel açıksa, sayacı gizle
+  const panelAcilmis = document.getElementById("notificationPanel").classList.contains("active");
+
+  if (count === 0 || panelAcilmis) {
+    badge.style.display = "none"; // 🔴 Daire tamamen kaybolur
+  } else {
+    badge.style.display = "inline-block";
+    badge.innerText = count > 9 ? "9+" : count;
+  }
+}
+
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = Array.from({length: 100}, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 1.5 + 0.5,
+  d: Math.random() * 0.5 + 0.2
+}));
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white";
+  for (let s of stars) {
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fill();
+    s.y += s.d;
+    if (s.y > canvas.height) s.y = 0;
+  }
+  requestAnimationFrame(drawStars);
+}
+
+
+drawStars();
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+
+
+
+    function applyTheme(theme) {
+      document.body.classList.toggle("light-mode", theme === "light");
+    }
+
+    window.addEventListener("scroll", () => {
+      document.querySelectorAll(".content").forEach(el => {
+        const pos = el.getBoundingClientRect().top;
+        const screen = window.innerHeight * 0.9;
+        if (pos < screen) {
+          el.classList.add("visible");
+        }
+      });
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const theme = localStorage.getItem("theme") || "dark";
+      applyTheme(theme);
+      updateNotifCount();
+      window.dispatchEvent(new Event("scroll"));
+    });
+    document.addEventListener("mousemove", e => {
+  document.body.style.setProperty('--x', `${e.clientX}px`);
+  document.body.style.setProperty('--y', `${e.clientY}px`);
+});
+window.addEventListener("storage", (event) => {
+  if (event.key === "qmax_refresh_bildirim") {
+    updateNotificationPanel();
+    updateNotifCount();
+  }
+});
+
+badge.classList.add("shake");
+setTimeout(() => badge.classList.remove("shake"), 400);
+// localStorage değiştiğinde tepki ver
+window.addEventListener("storage", (event) => {
+  if (event.key === "qmax_refresh_bildirim") {
+    updateNotifCount(); // 🔄 Sadece sayacı güncelle
+  }
+});
+  function updateNotifCount() {
+  const badge = document.getElementById("notifCount");
+  const yeni = parseInt(localStorage.getItem("qmax_yeni_sayisi") || "0");
+
+  if (yeni <= 0) {
+    badge.style.display = "none";
+  } else {
+    badge.style.display = "inline-block";
+    badge.innerText = yeni > 9 ? "9+" : yeni;
+  }
+}
+
+
+
+
+function toggleNotification() {
+  const panel = document.getElementById('notificationPanel');
+  const acik = panel.classList.contains("active");
+
+  panel.classList.toggle('active');
+
+  if (!acik) {
+    updateNotificationPanel();
+
+    const list = JSON.parse(localStorage.getItem("qmax_bildirimler") || "[]");
+    localStorage.setItem("qmax_okunan_adet", list.length); // 🔢 Kaç tanesini gördü?
+    localStorage.setItem("qmax_yeni_sayisi", "0"); // ✅ Sıfırla
+
+    updateNotifCount();
+  }
+}function toggleNotification() {
+  const panel = document.getElementById('notificationPanel');
+  const content = document.querySelectorAll("body > *:not(.notification-panel)");
+
+  panel.classList.toggle('active');
+
+  content.forEach(el => {
+    if (panel.classList.contains("active")) {
+      el.classList.add("blur-bg");
+    } else {
+      el.classList.remove("blur-bg");
+    }
+  });
+
+  if (panel.classList.contains("active")) {
+    updateNotificationPanel();
+    const list = JSON.parse(localStorage.getItem("qmax_bildirimler") || "[]");
+    localStorage.setItem("qmax_okunan_adet", list.length);
+    localStorage.setItem("qmax_yeni_sayisi", "0");
+    updateNotifCount();
+  }
+}
+
+
+
+</script>
+  </script>
+</body>
+</html>
